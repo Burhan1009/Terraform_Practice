@@ -1,5 +1,5 @@
 data "aws_ami" "os_image" {
-  owners      = ["679593333241"]
+  owners      = ["099720109477"]
   most_recent = true
   filter {
     name   = "state"
@@ -25,7 +25,7 @@ resource "aws_default_vpc" "default" {}
 resource "aws_security_group" "my_sg" {
   name        = "My Security"
   description = "This is an SG created using Terraform"
-    vpc_id      = aws_default_vpc.default.id
+  vpc_id      = aws_default_vpc.default.id
 
   # Ingress rules for incoming traffic
   ingress {
@@ -59,7 +59,8 @@ resource "aws_security_group" "my_sg" {
 }
 
 resource "aws_instance" "my_ec2" {
-  count                       = var.aws_instance_count
+  #count                       = var.aws_instance_count # ye 2 replias banae ga with name ke sath 
+  for_each                    = local.instances #ye bhi same hain 2 instance banae ga with name ke sath 
   ami                         = data.aws_ami.os_image.id # Replace with a valid AMI ID for your region
   instance_type               = var.aws_ec2_instance_type
   security_groups             = [aws_security_group.my_sg.name]
@@ -71,6 +72,6 @@ resource "aws_instance" "my_ec2" {
     volume_type = "gp2"
   }
   tags = {
-    Name = var.aws_ec2_instance_name
+    Name = each.value
   }
 }
