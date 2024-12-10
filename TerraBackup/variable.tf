@@ -1,7 +1,12 @@
 variable "aws_region" {
-    description = "This is the Region specified for AWS Resources"
+    description = "AWS Reason"
     default = "us-west-2"
 }
-variable "aws_d" {
-  
+variable "aws_s3_bucket" {
+  description = "AWS Backend"
+  default = "burhantws-state"
+}
+variable "aws_dynamodb" {
+  description = "AWS Backend"
+  default = "burhantws-state-table"
 }
